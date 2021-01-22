@@ -1,0 +1,25 @@
+name: Continuous Integration
+
+on:
+  pull_request:
+    branches: [main, dev]
+
+jobs:
+  prettier:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        ref: ${{ github.head_ref }}
+        fetch-depth: 0
+
+    - name: prettier
+      uses: creyD/prettier_action@v3.1
+      with:
+        prettier_options: --write **/*.{html,js}
+        only_changed: false
+        dry: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
